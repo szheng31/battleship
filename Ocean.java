@@ -15,10 +15,63 @@ public class Ocean{
   }
 
   public void placeAllShipsRandomly(){
-    for (Ship ships: battleships){
-      int i = (int)(Math.random() * 10);
-      int j = (int)(Math.random() * 10);
+    //battleship
+    Ship battleship = new Battleship();
+    boolean placeable = false;
+    while (!placeable) {
+        int i = (int) (Math.random() * 10) + 1;
+        int j = (int) (Math.random() * 10) + 1;
+        boolean horizontal = (Math.random() > 0.5);
+        if (okToPlaceAt(i,j,horizontal,this)) {
+            placeable = true;
+            battleship.placeAt(i,j,horizontal,this);
+        }
     }
+    
+    // two cruisers
+    for (int i = 0; i < 2; i++) {
+        Ship cruiser = new Cruiser();
+        placeable = false;
+        while (!placeable) {
+            int i = (int) (Math.random() * 10) + 1;
+            int j = (int) (Math.random() * 10) + 1;
+            boolean horizontal = (Math.random() > 0.5);
+            if (okToPlaceAt(i,j,horizontal,this)) {
+                placeable = true;
+                cruiser.placeAt(i,j,horizontal,this);
+            }
+        }
+    }
+    // three destroyers
+    for (int i = 0; i < 3; i++) {
+        Ship destroyer = new Destroyer();
+        placeable = false;
+        while (!placeable) {
+            int i = (int) (Math.random() * 10) + 1;
+            int j = (int) (Math.random() * 10) + 1;
+            boolean horizontal = (Math.random() > 0.5);
+            if (okToPlaceAt(i,j,horizontal,this)) {
+                placeable = true;
+                destroyer.placeAt(i,j,horizontal,this);
+            }
+        }
+    }
+    
+    // four submarines
+    for (int i = 0; i < 4; i++) {
+        Ship submarine = new Submarine();
+        placeable = false;
+        while (!placeable) {
+            int i = (int) (Math.random() * 10) + 1;
+            int j = (int) (Math.random() * 10) + 1;
+            boolean horizontal = (Math.random() > 0.5);
+            if (okToPlaceAt(i,j,horizontal,this)) {
+                placeable = true;
+                submarine.placeAt(i,j,horizontal,this);
+            }
+        }
+    }
+            
   }
 
   public boolean isOccupied(int row, int column){

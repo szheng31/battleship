@@ -1,6 +1,6 @@
 public class Destroyer extends Ship{
   @Override
-  public Destroyer{
+  public Destroyer(){
     length = 2;
   }
   @Override
