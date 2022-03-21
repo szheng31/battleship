@@ -3,10 +3,10 @@ public abstract class Ship {
 	protected int length;
 	private boolean horizontal;
 	private boolean[] hit;
-		
-	
+
+
 	public abstract String getShipType();
-	
+
 	//getters
 	public int getLength() {
 		return length;
@@ -17,11 +17,11 @@ public abstract class Ship {
 	public int getBowColumn() {
 		return bowColumn;
 	}
-	
+
 	public boolean isHorizontal() {
 		return horizontal;
 	}
-	
+
 	//setters
 	public void setBowRow(int row) {
 		bowRow = row;
@@ -29,11 +29,11 @@ public abstract class Ship {
 	public void setBowColumn(int column) {
 		bowColumn = column;
 	}
-	
+
 	public void setHorizontal(boolean horizontal) {
 		this.horizontal = horizontal;
 	}
-	
+
 	public boolean okToPlaceShipAt(int row, int column, boolean horizontal, Ocean ocean) {
 		int[] ship = new int[length];
 		if (horizontal) {
@@ -47,45 +47,45 @@ public abstract class Ship {
 			}
 		}
 		// if tiles are occupied
-		if (Ocean.isOccupied(row,column)) return false;
-	
+		if (ocean.isOccupied(row,column)) return false;
+
 		// if ship is horizontal
 		if (horizontal && column + length-1 <= 9) {
 			for (int i = 0; i < ship.length; i++) {
 				//horizontally
-				if (Ocean.isOccupied(row,column-1) || Ocean.isOccupied(row,column+length)) {
+				if (ocean.isOccupied(row,column-1) || ocean.isOccupied(row,column+length)) {
 					return false;
-					
+
 				}
-				
+
 				// vertical
-				if (Ocean.isOccupied(row-1,ship[i]) || Ocean.isOccupied(row+1,ship[i])) {
+				if (ocean.isOccupied(row-1,ship[i]) || ocean.isOccupied(row+1,ship[i])) {
 					return false;
 				}
-				
+
 				// diagonal
-				if (Ocean.isOccupied(row-1,column-1) || Ocean.isOccupied(row+1,column-1)) || Ocean.isOccupied(row-1,column+length) || Ocean.isOccupied(row+1,column+length) {
+				if (ocean.isOccupied(row-1,column-1) || ocean.isOccupied(row+1,column-1) || ocean.isOccupied(row-1,column+length) || ocean.isOccupied(row+1,column+length)) {
 					return false;
 				}
 			}
 			return true;
 		}
-		
-		// if ship is vertical 
+
+		// if ship is vertical
 		if (!horizontal && row + length-1 <= 9) {
 			for (int i = 0; i < ship.length; i++) {
 				// vertically
-				if (Ocean.isOccupied(row-1,column) || Ocean.isOccupied(row+length,column)) {
+				if (ocean.isOccupied(row-1,column) || ocean.isOccupied(row+length,column)) {
 					return false;
 				}
-				
+
 				//horizontal
-				if (Ocean.isOccupied(ship[i],column-1) || Ocean.isOccupied(ship[i],column+1)) {
+				if (ocean.isOccupied(ship[i],column-1) || ocean.isOccupied(ship[i],column+1)) {
 					return false;
 				}
-				
+
 				//diagonal
-				if (Ocean.isOccupied(row-1,column-1) || Ocean.isOccupied(row-1,column+1) || Ocean.isOccupied(row+length,column-1) || Ocean.isOccupied(row+length,column+1)) {
+				if (ocean.isOccupied(row-1,column-1) || ocean.isOccupied(row-1,column+1) || ocean.isOccupied(row+length,column-1) || ocean.isOccupied(row+length,column+1)) {
 					return false;
 				}
 			}
@@ -93,30 +93,30 @@ public abstract class Ship {
 		}
 
 
-		
-		
+
+
 	}
-	
+
 	public void placeShipAt(int row, int column, boolean horizontal, Ocean ocean) { //assumes it is safe to place ship at row, col
 		bowRow = row;
 		bowColumn = column;
 		this.horizontal = horizontal;
-		
-		Ship[][] board = Ocean.getShipArray();
-		
+
+		Ship[][] board = ocean.getShipArray();
+
 		if (horizontal) {
-			for (int i = 0; i < ship.length; i++) {
+			for (int i = 0; i < length; i++) {
 				board[row][column+i] = this;
 			}
 		}
 		else {
-			for (int i = 0; i < ship.length; i++) {
-				ship[i] = row + i;
+			for (int i = 0; i < length; i++) {
+				board[row + i][column] = this;
 			}
 		}
-		
+
 	}
-	
+
 	public boolean shootAt(int row, int column) {
 		if (horizontal == true && bowRow == row && column - bowColumn >= 0 && column - bowColumn <= getLength()-1) {
 			hit[column-bowColumn] = true;
@@ -131,17 +131,17 @@ public abstract class Ship {
 		}
 
 	}
-	
+
 	public boolean isSunk() {
 		for (int i = 0; i < hit.length; i++) {
 			if (hit[i] == false) return false;
 		}
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
-		
+
 	}
-	
+
 }

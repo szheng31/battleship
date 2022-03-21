@@ -28,7 +28,7 @@ public class Ocean{
 
   public boolean shootAt(int row, int column){
     shotsFired++;
-    if (isOccupied(row,column)==true && (!(row,column)=="x"))
+    if (isOccupied(row,column)==true && !(ships[row][column].toString() == "x"))
     {
       hitCount++;
     }
@@ -58,14 +58,12 @@ public class Ocean{
 
   public void print(){
     String[][] ocean = new String[11][11];
-    for (int i=0;i<11;i++){
-      System.out.print("0  1  2  3  4  5  6  7  8  9");
+    for (int i= 0;i < 10;i++){
+      ocean[0][i] = Integer.toString(i);
+      ocean[i][0] = Integer.toString(i);
     }
-    for (int j=0){
-      System.out.print("0 \n1 \n2 \n3 \n4 \n5 \n6 \n7 \n8 \n9");
-    }
-    for (int i=1;i<11;i++){
-      for (int j=1;j<11;j++){
+    for (int i = 1; i < 11; i++){
+      for (int j = 1; j < 11; j++){
       if (shootAt(ships[i][j])==true  && isOccupied(ships[i][j]==true)) ocean[i][j]="S";
       if (shootAt(ships[i][j])==true  && isOccupied(ships[i][j]==false)) ocean[i][j]="-";
       if (ships[i][j].isSunk()==true) ocean[i][j]="x";
