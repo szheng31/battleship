@@ -53,18 +53,18 @@ public abstract class Ship {
 		if (horizontal && column + length-1 <= 9) {
 			for (int i = 0; i < ship.length; i++) {
 				//horizontally
-				if (Ocean.isOccupied(row,column-1) || Ocean.isOccupied(row,column+length) {
+				if (Ocean.isOccupied(row,column-1) || Ocean.isOccupied(row,column+length)) {
 					return false;
 					
 				}
 				
 				// vertical
-				if (Ocean.isOccupied(row-1,ship[i] || Ocean.isOccupied(row+1,ship[i]) {
+				if (Ocean.isOccupied(row-1,ship[i]) || Ocean.isOccupied(row+1,ship[i])) {
 					return false;
 				}
 				
 				// diagonal
-				if (Ocean.isOccupied(row-1,column-1) || Ocean.isOccupied(row+1,column-1) || Ocean.isOccupied(row-1,column+length) || Ocean.isOccupied(row+1,column+length) {
+				if (Ocean.isOccupied(row-1,column-1) || Ocean.isOccupied(row+1,column-1)) || Ocean.isOccupied(row-1,column+length) || Ocean.isOccupied(row+1,column+length) {
 					return false;
 				}
 			}
@@ -75,17 +75,17 @@ public abstract class Ship {
 		if (!horizontal && row + length-1 <= 9) {
 			for (int i = 0; i < ship.length; i++) {
 				// vertically
-				if (Ocean.isOccupied(row-1,column) || Ocean.isOccupied(row+length,column) {
+				if (Ocean.isOccupied(row-1,column) || Ocean.isOccupied(row+length,column)) {
 					return false;
 				}
 				
 				//horizontal
-				if (Ocean.isOccupied(ship[i],column-1) || Ocean.isOccupied(ship[i],column+1) {
+				if (Ocean.isOccupied(ship[i],column-1) || Ocean.isOccupied(ship[i],column+1)) {
 					return false;
 				}
 				
 				//diagonal
-				if (Ocean.isOccupied(row-1,column-1) || Ocean.isOccupied(row-1,column+1) || Ocean.isOccupied(row+length,column-1) || Ocean.isOccupied(row+length,column+1) {
+				if (Ocean.isOccupied(row-1,column-1) || Ocean.isOccupied(row-1,column+1) || Ocean.isOccupied(row+length,column-1) || Ocean.isOccupied(row+length,column+1)) {
 					return false;
 				}
 			}
@@ -119,11 +119,13 @@ public abstract class Ship {
 	
 	public boolean shootAt(int row, int column) {
 		if (horizontal == true && bowRow == row && column - bowColumn >= 0 && column - bowColumn <= getLength()-1) {
-			hit[column-bowColumn] == true;
+			hit[column-bowColumn] = true;
 			return true;
+		}
 		else if (horizontal == false && bowColumn == column && row - bowRow >= 0 && row - bowRow <= getLength()-1) {
-			hit[row - bowRow] == true;
+			hit[row - bowRow] = true;
 			return true;
+		}
 		else {
 			return false;
 		}
