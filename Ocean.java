@@ -71,6 +71,7 @@ public class Ocean{
             }
         }
     }
+    
 
   }
 
@@ -115,17 +116,34 @@ public class Ocean{
   }
 
   public void print(){
+      System.out.println(" 0 1 2 3 4 5 6 7 8 9");
+      for (int i = 0; i < 10; i++) {
+          System.out.print(i);
+          for (int j = 0; j<10;j++) {
+              if (ships[i][j].toString() != "x" || ships[i][j].toString() != "S") {
+                  
+                System.out.print(". ");
+            }
+            else {
+                
+                System.out.print(ships[i][j]+" ");
+            }
+        }
+        System.out.println();
+    }
+      /**
     String[][] ocean = new String[11][11];
+    ocean[0][0] = " ";
     for (int i= 0;i < 10;i++){
-      ocean[0][i] = Integer.toString(i);
-      ocean[i][0] = Integer.toString(i);
+      ocean[0][i + 1] = Integer.toString(i);
+      ocean[i + 1][0] = Integer.toString(i);
     }
     for (int i = 1; i < 11; i++){
       for (int j = 1; j < 11; j++){
       if (shootAt(i, j) == true  && isOccupied(i, j) == true) ocean[i][j]="S";
       if (shootAt(i, j)==true  && isOccupied(i, j) ==false) ocean[i][j]="-";
-      if (ships[i][j].isSunk()==true) ocean[i][j]="x";
-      if (ships[i][j].isSunk()==false) ocean[i][j]=".";
+      if (ships[i-1][j-1].isSunk()==true) ocean[i][j]="x";
+      if (ships[i-1][j-1].isSunk()==false) ocean[i][j]=".";
       }
     }
     for (int i = 0; i < 11; i++){
@@ -134,6 +152,7 @@ public class Ocean{
       }
       System.out.println();
     }
+    **/
   }
 
 }

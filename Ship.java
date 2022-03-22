@@ -2,7 +2,7 @@ public abstract class Ship {
 	private int bowRow,bowColumn;
 	protected int length;
 	private boolean horizontal;
-	private boolean[] hit;
+	private boolean[] hit = new boolean[4];
 
 
 	public abstract String getShipType();
@@ -130,15 +130,20 @@ public abstract class Ship {
 	}
 
 	public boolean isSunk() {
-		for (int i = 0; i < hit.length; i++) {
-			if (hit[i] == false) return false;
+		for (int i = 0; i < length; i++) {
+			return hit[i];
 		}
 		return true;
 	}
 
-	//@Override
-	//public String toString() {
-		//if (
-	//}
+	@Override
+	public String toString() {
+		if (this.isSunk()) {
+			return "x";
+		}
+		else {
+			return "S";
+		}
+	}
 
 }
