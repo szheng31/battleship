@@ -51,29 +51,6 @@ public abstract class Ship {
 
 		// if ship is horizontal
 		if (horizontal && column + length-1 <= 9) {
-			//top row
-			if (row == 0){
-				//upper left corner
-				if (column == 0){
-					//horizontally
-					if (ocean.isOccupied(row,column+length)) return false;
-
-					// vertical
-					if (ocean.isOccupied(row+1,ship[i])) return false;
-
-					// diagonal
-					if (ocean.isOccupied(row+1,column+length)) return false;
-				}
-
-				//horizontally
-				if (ocean.isOccupied(row,column-1) || ocean.isOccupied(row,column+length)) return false;
-
-				// vertical
-				if (ocean.isOccupied(row+1,ship[i]))	return false;
-
-				// diagonal
-				if (ocean.isOccupied(row+1,column-1) || ocean.isOccupied(row+1,column+length)) return false;
-			}
 			for (int i = 0; i < ship.length; i++) {
 				//horizontally
 				if (ocean.isOccupied(row,column-1) || ocean.isOccupied(row,column+length)) {
@@ -159,14 +136,9 @@ public abstract class Ship {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		if (this.isSunk()) {
-			return "x";
-		}
-		else {
-			return "S";
-		}
-	}
+	//@Override
+	//public String toString() {
+		//if (
+	//}
 
 }
