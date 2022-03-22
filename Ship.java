@@ -89,15 +89,12 @@ public abstract class Ship {
 					return false;
 				}
 			}
-			return true;
 		}
-
-
-
-
+		return true;
 	}
 
-	public void placeShipAt(int row, int column, boolean horizontal, Ocean ocean) { //assumes it is safe to place ship at row, col
+	//assumes it is safe to place ship at row, col
+	public void placeShipAt(int row, int column, boolean horizontal, Ocean ocean) {
 		bowRow = row;
 		bowColumn = column;
 		this.horizontal = horizontal;
@@ -139,9 +136,9 @@ public abstract class Ship {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		if (
-	}
+	//@Override
+	//public String toString() {
+		//if (
+	//}
 
 }

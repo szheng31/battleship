@@ -1,5 +1,5 @@
 public class ShipTest{
-  public static void main(){
+  public static void main(String[] args){
     Ship test = new Destroyer();
     Ocean o = new Ocean();
     System.out.println("length:" + test.getLength() + " " + test.getBowRow() + " " + test.getBowColumn());

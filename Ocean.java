@@ -22,23 +22,23 @@ public class Ocean{
         int i = (int) (Math.random() * 10) + 1;
         int j = (int) (Math.random() * 10) + 1;
         boolean horizontal = (Math.random() > 0.5);
-        if (okToPlaceAt(i,j,horizontal,this)) {
+        if (battleship.okToPlaceShipAt(i,j,horizontal,this)) {
             placeable = true;
-            battleship.placeAt(i,j,horizontal,this);
+            battleship.placeShipAt(i,j,horizontal,this);
         }
     }
-    
+
     // two cruisers
     for (int i = 0; i < 2; i++) {
         Ship cruiser = new Cruiser();
         placeable = false;
         while (!placeable) {
-            int i = (int) (Math.random() * 10) + 1;
+            int k = (int) (Math.random() * 10) + 1;
             int j = (int) (Math.random() * 10) + 1;
             boolean horizontal = (Math.random() > 0.5);
-            if (okToPlaceAt(i,j,horizontal,this)) {
+            if (cruiser.okToPlaceShipAt(k,j,horizontal,this)) {
                 placeable = true;
-                cruiser.placeAt(i,j,horizontal,this);
+                cruiser.placeShipAt(k,j,horizontal,this);
             }
         }
     }
@@ -47,44 +47,46 @@ public class Ocean{
         Ship destroyer = new Destroyer();
         placeable = false;
         while (!placeable) {
-            int i = (int) (Math.random() * 10) + 1;
+            int k = (int) (Math.random() * 10) + 1;
             int j = (int) (Math.random() * 10) + 1;
             boolean horizontal = (Math.random() > 0.5);
-            if (okToPlaceAt(i,j,horizontal,this)) {
+            if (destroyer.okToPlaceShipAt(k,j,horizontal,this)) {
                 placeable = true;
-                destroyer.placeAt(i,j,horizontal,this);
+                destroyer.placeShipAt(k,j,horizontal,this);
             }
         }
     }
-    
+
     // four submarines
     for (int i = 0; i < 4; i++) {
         Ship submarine = new Submarine();
         placeable = false;
         while (!placeable) {
-            int i = (int) (Math.random() * 10) + 1;
+            int k = (int) (Math.random() * 10) + 1;
             int j = (int) (Math.random() * 10) + 1;
             boolean horizontal = (Math.random() > 0.5);
-            if (okToPlaceAt(i,j,horizontal,this)) {
+            if (submarine.okToPlaceShipAt(k,j,horizontal,this)) {
                 placeable = true;
-                submarine.placeAt(i,j,horizontal,this);
+                submarine.placeShipAt(k,j,horizontal,this);
             }
         }
     }
-            
+
   }
 
   public boolean isOccupied(int row, int column){
     if (ships[row][column] instanceof EmptySea) return false;
     return true;
-    }
+  }
 
   public boolean shootAt(int row, int column){
     shotsFired++;
     if (isOccupied(row,column)==true && !(ships[row][column].toString() == "x"))
     {
       hitCount++;
+      return true;
     }
+    return false;
   }
 
   public int getShotsFired(){
@@ -103,6 +105,7 @@ public class Ocean{
       }
     }
     if (count==10) return true;
+    return false;
   }
 
   public Ship[][] getShipArray(){
@@ -117,13 +120,18 @@ public class Ocean{
     }
     for (int i = 1; i < 11; i++){
       for (int j = 1; j < 11; j++){
-      if (shootAt(ships[i][j])==true  && isOccupied(ships[i][j]==true)) ocean[i][j]="S";
-      if (shootAt(ships[i][j])==true  && isOccupied(ships[i][j]==false)) ocean[i][j]="-";
+      if (shootAt(i, j) == true  && isOccupied(i, j) == true) ocean[i][j]="S";
+      if (shootAt(i, j)==true  && isOccupied(i, j) ==false) ocean[i][j]="-";
       if (ships[i][j].isSunk()==true) ocean[i][j]="x";
       if (ships[i][j].isSunk()==false) ocean[i][j]=".";
+      }
     }
-  }
-  System.out.print(ocean[i][j]);
+    for (int i = 0; i < 11; i++){
+      for (int j = 0; j < 11; j++){
+          System.out.print(ocean[i][j] + " ");
+      }
+      System.out.println();
+    }
   }
 
 }
