@@ -159,9 +159,14 @@ public abstract class Ship {
 		return true;
 	}
 
-	//@Override
-	//public String toString() {
-		//if (
-	//}
+	@Override
+	public String toString() {
+		if (this.isSunk()) {
+			return "x";
+		}
+		else {
+			return "S";
+		}
+	}
 
 }

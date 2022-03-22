@@ -75,6 +75,8 @@ public class Ocean{
   }
 
   public boolean isOccupied(int row, int column){
+    if (row < 0 || row > 9) return false;
+    if (column < 0 || column > 9) return false;
     if (ships[row][column] instanceof EmptySea) return false;
     return true;
   }
