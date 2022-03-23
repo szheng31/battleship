@@ -76,15 +76,13 @@ public class Ocean{
   }
 
   public boolean isOccupied(int row, int column){
-    if (row < 0 || row > 9) return false;
-    if (column < 0 || column > 9) return false;
     if (ships[row][column] instanceof EmptySea) return false;
     return true;
   }
 
   public boolean shootAt(int row, int column){
     shotsFired++;
-    if (isOccupied(row,column)==true && !(ships[row][column].toString() == "x"))
+    if (ships[row][column].shootAt(row, column))
     {
       hitCount++;
       return true;
@@ -120,14 +118,14 @@ public class Ocean{
       for (int i = 0; i < 10; i++) {
           System.out.print(i);
           for (int j = 0; j<10;j++) {
-              if (ships[i][j].toString() != "x" || ships[i][j].toString() != "S") {
+              //if (ships[i][j].toString() != "x" || ships[i][j].toString() != "S") {
                   
-                System.out.print(". ");
-            }
-            else {
+                //System.out.print(". ");
+            //}
+            //else {
                 
                 System.out.print(ships[i][j]+" ");
-            }
+            //}
         }
         System.out.println();
     }

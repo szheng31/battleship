@@ -33,60 +33,44 @@ public abstract class Ship {
 	public void setHorizontal(boolean horizontal) {
 		this.horizontal = horizontal;
 	}
+	
+	private boolean inBound(int row, int col) {
+		if (row < 0 || row > 9) return false;
+    	if (col < 0 || col > 9) return false;
+    	return true;
+    }
 
 	public boolean okToPlaceShipAt(int row, int column, boolean horizontal, Ocean ocean) {
-		int[] ship = new int[length];
-		if (horizontal) {
-			for (int i = 0; i < ship.length; i++) {
-				ship[i] = column + i;
-			}
-		}
-		else {
-			for (int i = 0; i < ship.length; i++) {
-				ship[i] = row + i;
-			}
-		}
+		if (!inBound(row,column)) return false;
 		// if tiles are occupied
 		if (ocean.isOccupied(row,column)) return false;
 
 		// if ship is horizontal
-		if (horizontal && column + length-1 <= 9) {
-			for (int i = 0; i < ship.length; i++) {
-				//horizontally
-				if (ocean.isOccupied(row,column-1) || ocean.isOccupied(row,column+length)) {
-					return false;
-
-				}
-
-				// vertical
-				if (ocean.isOccupied(row-1,ship[i]) || ocean.isOccupied(row+1,ship[i])) {
-					return false;
-				}
-
-				// diagonal
-				if (ocean.isOccupied(row-1,column-1) || ocean.isOccupied(row+1,column-1) || ocean.isOccupied(row-1,column+length) || ocean.isOccupied(row+1,column+length)) {
-					return false;
+		if (horizontal) {
+			if (column + length > 10) {
+				return false;
+			}
+			else {
+				for (int i = row-1; i<= row + 1;i++) {
+					for (int j = column-1;j<=column+length;j++) {
+						if (inBound(i,j)) {
+							if(!(ocean.isOccupied(i,j))) return false;
+						}
+					}
 				}
 			}
-			return true;
 		}
-
-		// if ship is vertical
-		if (!horizontal && row + length-1 <= 9) {
-			for (int i = 0; i < ship.length; i++) {
-				// vertically
-				if (ocean.isOccupied(row-1,column) || ocean.isOccupied(row+length,column)) {
-					return false;
-				}
-
-				//horizontal
-				if (ocean.isOccupied(ship[i],column-1) || ocean.isOccupied(ship[i],column+1)) {
-					return false;
-				}
-
-				//diagonal
-				if (ocean.isOccupied(row-1,column-1) || ocean.isOccupied(row-1,column+1) || ocean.isOccupied(row+length,column-1) || ocean.isOccupied(row+length,column+1)) {
-					return false;
+		else {
+			if (row + length > 10) {
+				return false;
+			}
+			else {
+				for (int j = column - 1; j <= column + 1; j++) {
+					for (int i = row - 1; i <= row+length; i++) {
+						if( inBound(i,j)) {
+							if (!(ocean.isOccupied(i,j)))return false;
+						}
+					}
 				}
 			}
 		}
@@ -95,9 +79,9 @@ public abstract class Ship {
 
 	//assumes it is safe to place ship at row, col
 	public void placeShipAt(int row, int column, boolean horizontal, Ocean ocean) {
-		bowRow = row;
-		bowColumn = column;
-		this.horizontal = horizontal;
+		setBowRow(row);
+		setBowColumn(column);
+		setHorizontal(horizontal);
 
 		Ship[][] board = ocean.getShipArray();
 
@@ -115,23 +99,26 @@ public abstract class Ship {
 	}
 
 	public boolean shootAt(int row, int column) {
-		if (horizontal == true && bowRow == row && column - bowColumn >= 0 && column - bowColumn <= getLength()-1) {
-			hit[column-bowColumn] = true;
-			return true;
+		//horizontal == true && bowRow == row && column - bowColumn >= 0 && column - bowColumn <= getLength()-1
+		if (!this.isSunk()) {
+			if (horizontal) {
+				hit[column-bowColumn] = true;
+				return true;
+			}
+		    else {
+		// horizontal == false && bowColumn == column && row - bowRow >= 0 && row - bowRow <= getLength()-1
+
+				hit[row - bowRow] = true;
+			}
 		}
-		else if (horizontal == false && bowColumn == column && row - bowRow >= 0 && row - bowRow <= getLength()-1) {
-			hit[row - bowRow] = true;
-			return true;
-		}
-		else {
-			return false;
-		}
+		
+		return false;
 
 	}
 
 	public boolean isSunk() {
 		for (int i = 0; i < length; i++) {
-			return hit[i];
+			if (hit[i] == false) return false;
 		}
 		return true;
 	}
