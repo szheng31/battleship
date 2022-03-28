@@ -16,6 +16,10 @@ public class Ocean{
   }
 
   public void placeAllShipsRandomly(){
+    /*Places all ten ships randomly on the (initially empty) ocean, making certain that all ships are placed legally (within bounds). 
+      Places the larger ships first, starting from Battleship (length=4) to Submarine (length=1).
+    */
+	  
     //battleship
     Ship battleship = new Battleship();
     boolean placeable = false;
@@ -81,16 +85,19 @@ public class Ocean{
   }
 
   public boolean isOccupied(int row, int column){
+    //Returns true if the given location contains a ship, false if it does not.	  
     if (ships[row][column] instanceof EmptySea) return false;
     return true;
   }
   public boolean inBound(int row, int col) {
-		  if (row < 0 || row > 9) return false;
+	//Checks to see if the coordinates are in bound
+	if (row < 0 || row > 9) return false;
     	if (col < 0 || col > 9) return false;
     	return true;
     }
   public boolean shootAt(int row, int column){
-
+    /*Returns true if the given location contains a "real" ship, still afloat, (not an EmptySea), false if it does not. 
+      In addition, this method updates the number of shots that have been fired, and the number of hits.*/
     shots[row][column] = true;
     shotsFired++;
     if (ships[row][column].shootAt(row, column))
@@ -114,6 +121,7 @@ public class Ocean{
   }
 
   public void print(){
+      //
       System.out.println("  0 1 2 3 4 5 6 7 8 9");
       for (int i = 0; i < 10; i++) {
           System.out.print(i+ " ");
