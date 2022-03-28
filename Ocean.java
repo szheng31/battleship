@@ -90,14 +90,15 @@ public class Ocean{
     return true;
   }
   public boolean inBound(int row, int col) {
-	//Checks to see if the coordinates are in bound
+	//Checks to see if the coordinates are in bound, that is, if they are in the range of 0 to 9 inclusive.
 	if (row < 0 || row > 9) return false;
     	if (col < 0 || col > 9) return false;
     	return true;
     }
   public boolean shootAt(int row, int column){
     /*Returns true if the given location contains a "real" ship, still afloat, (not an EmptySea), false if it does not. 
-      In addition, this method updates the number of shots that have been fired, and the number of hits.*/
+      In addition, this method updates the number of shots that have been fired, and the number of hits.
+      */
     shots[row][column] = true;
     shotsFired++;
     if (ships[row][column].shootAt(row, column))
@@ -108,20 +109,23 @@ public class Ocean{
     return false;
   }
 
-  public int getShotsFired(){
+  public int getShotsFired(){ //returns the total number of shots fired
     return shotsFired;
   }
 
-  public int getHitCount(){
+  public int getHitCount(){ //returns the number of hits recorded (allows the user to get a worse score by shooting again at the same location)
     return hitCount;
   }
 
-  public Ship[][] getShipArray(){
+  public Ship[][] getShipArray(){ //returns the actual 10x10 array of ships
     return ships;
   }
 
   public void print(){
-      //
+      /*Prints the ocean. To aid the user, row numbers are displayed along the left edge of the array, and column numbers are
+        displayed along the top from 0 to 9. Prints 'S' to indicate a location that was fired upon and hit a ship, '-' to indicate a location 
+	fired upon and found nothing there, 'x' to indicate a location containing a sunken ship, and '.' to indicate a location that was never fired upon.
+      */
       System.out.println("  0 1 2 3 4 5 6 7 8 9");
       for (int i = 0; i < 10; i++) {
           System.out.print(i+ " ");
@@ -140,6 +144,7 @@ public class Ocean{
   }
 
   public boolean isGameOver() {
+    //If the player has sunk all ships, the game returns a message declaring they've won along with the total shots fired in the game (the final score).
     for (int i = 0; i< 10; i++ ) {
       for(int j = 0; j < 10; j++ ) {
         if ((!(ships[i][j].isSunk())) && this.isOccupied(i,j)) {
@@ -151,7 +156,7 @@ public class Ocean{
     return true;
   }
   
-  public Ship getShip(int row, int col) {
+  public Ship getShip(int row, int col) { //returns the Ship object at the specified row and column
     return ships[row][col];
   }
 
