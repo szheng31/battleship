@@ -8,7 +8,7 @@ public abstract class Ship {
 	public abstract String getShipType();
 
 	//getters
-	public int getLength() {
+	public int getLength() { 
 		return length;
 	}
 	public int getBowRow() {
@@ -41,6 +41,10 @@ public abstract class Ship {
     }
 
 	public boolean okToPlaceShipAt(int row, int column, boolean horizontal, Ocean ocean) {
+		/*Returns true if it is okay to put a ship of this length with its bow in this location, with the given orientation, and returns false otherwise. 
+		  The ship must not overlap another ship, or touch another ship (vertically, horizontally, or diagonally), and it must not "stick out" beyond the 
+		  array. Does not actually change either the ship or the Ocean, just says whether it is legal to do so. Uses the inBound method from Ocean.java.
+		*/
 		if (!inBound(row,column)) return false;
 		// if tiles are occupied
 		if (ocean.isOccupied(row,column)) return false;
