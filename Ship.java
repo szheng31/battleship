@@ -54,7 +54,7 @@ public abstract class Ship {
 				for (int i = row-1; i<= row + 1;i++) {
 					for (int j = column-1;j<=column+length;j++) {
 						if (inBound(i,j)) {
-							if(!(ocean.isOccupied(i,j))) return false;
+							if((ocean.isOccupied(i,j))) return false;
 						}
 					}
 				}
@@ -68,7 +68,7 @@ public abstract class Ship {
 				for (int j = column - 1; j <= column + 1; j++) {
 					for (int i = row - 1; i <= row+length; i++) {
 						if( inBound(i,j)) {
-							if (!(ocean.isOccupied(i,j)))return false;
+							if ((ocean.isOccupied(i,j)))return false;
 						}
 					}
 				}
@@ -79,39 +79,44 @@ public abstract class Ship {
 
 	//assumes it is safe to place ship at row, col
 	public void placeShipAt(int row, int column, boolean horizontal, Ocean ocean) {
-		setBowRow(row);
-		setBowColumn(column);
-		setHorizontal(horizontal);
+		if (okToPlaceShipAt(row,column,horizontal,ocean)) {
+			setBowRow(row);
+			setBowColumn(column);
+			setHorizontal(horizontal);
 
-		Ship[][] board = ocean.getShipArray();
+			Ship[][] board = ocean.getShipArray();
 
-		if (horizontal) {
-			for (int i = 0; i < length; i++) {
-				board[row][column+i] = this;
+			if (horizontal) {
+				for (int i = 0; i < length; i++) {
+					board[row][column+i] = this;
+				}
+			}
+			else {
+				for (int i = 0; i < length; i++) {
+					board[row + i][column] = this;
+				}
 			}
 		}
-		else {
-			for (int i = 0; i < length; i++) {
-				board[row + i][column] = this;
-			}
-		}
+		
 
 	}
 
 	public boolean shootAt(int row, int column) {
-		//horizontal == true && bowRow == row && column - bowColumn >= 0 && column - bowColumn <= getLength()-1
-		if (!this.isSunk()) {
+		if (!isSunk()) {
 			if (horizontal) {
-				hit[column-bowColumn] = true;
-				return true;
-			}
-		    else {
-		// horizontal == false && bowColumn == column && row - bowRow >= 0 && row - bowRow <= getLength()-1
+				if (row == getBowRow() && column < getBowColumn() + length) {
+					hit[column - getBowColumn()] = true;
+					return true;
+				}
 
-				hit[row - bowRow] = true;
+			}
+			else {
+				if (column == getBowColumn() && row < getBowRow() + length) {
+					hit[row - getBowRow()] = true;
+					return true;
+				}
 			}
 		}
-		
 		return false;
 
 	}

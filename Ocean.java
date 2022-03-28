@@ -2,6 +2,7 @@ import java.util.Random;
 
 public class Ocean{
   private Ship[][] ships = new Ship[10][10] ;
+  private boolean[][] shots = new boolean[10][10];
   private int shotsFired, hitCount;
 
   public Ocean(){
@@ -19,10 +20,14 @@ public class Ocean{
     Ship battleship = new Battleship();
     boolean placeable = false;
     while (!placeable) {
-        int i = (int) (Math.random() * 10) + 1;
-        int j = (int) (Math.random() * 10) + 1;
+        int i = (int) (Math.random() * 10);
+        int j = (int) (Math.random() * 10);
         boolean horizontal = (Math.random() > 0.5);
+        
+        
+        
         if (battleship.okToPlaceShipAt(i,j,horizontal,this)) {
+            
             placeable = true;
             battleship.placeShipAt(i,j,horizontal,this);
         }
@@ -33,8 +38,8 @@ public class Ocean{
         Ship cruiser = new Cruiser();
         placeable = false;
         while (!placeable) {
-            int k = (int) (Math.random() * 10) + 1;
-            int j = (int) (Math.random() * 10) + 1;
+            int k = (int) (Math.random() * 10);
+            int j = (int) (Math.random() * 10);
             boolean horizontal = (Math.random() > 0.5);
             if (cruiser.okToPlaceShipAt(k,j,horizontal,this)) {
                 placeable = true;
@@ -47,8 +52,8 @@ public class Ocean{
         Ship destroyer = new Destroyer();
         placeable = false;
         while (!placeable) {
-            int k = (int) (Math.random() * 10) + 1;
-            int j = (int) (Math.random() * 10) + 1;
+            int k = (int) (Math.random() * 10);
+            int j = (int) (Math.random() * 10);
             boolean horizontal = (Math.random() > 0.5);
             if (destroyer.okToPlaceShipAt(k,j,horizontal,this)) {
                 placeable = true;
@@ -62,8 +67,8 @@ public class Ocean{
         Ship submarine = new Submarine();
         placeable = false;
         while (!placeable) {
-            int k = (int) (Math.random() * 10) + 1;
-            int j = (int) (Math.random() * 10) + 1;
+            int k = (int) (Math.random() * 10);
+            int j = (int) (Math.random() * 10);
             boolean horizontal = (Math.random() > 0.5);
             if (submarine.okToPlaceShipAt(k,j,horizontal,this)) {
                 placeable = true;
@@ -79,8 +84,14 @@ public class Ocean{
     if (ships[row][column] instanceof EmptySea) return false;
     return true;
   }
-
+  public boolean inBound(int row, int col) {
+		  if (row < 0 || row > 9) return false;
+    	if (col < 0 || col > 9) return false;
+    	return true;
+    }
   public boolean shootAt(int row, int column){
+
+    shots[row][column] = true;
     shotsFired++;
     if (ships[row][column].shootAt(row, column))
     {
@@ -98,59 +109,42 @@ public class Ocean{
     return hitCount;
   }
 
-  public boolean isGameOver(){
-    int count = 0;
-    for (int i=0; i<10; i++){
-      for (int j=0; j<10;j++){
-        if (ships[i][j].isSunk()) count++;
-      }
-    }
-    if (count==10) return true;
-    return false;
-  }
-
   public Ship[][] getShipArray(){
     return ships;
   }
 
   public void print(){
-      System.out.println(" 0 1 2 3 4 5 6 7 8 9");
+      System.out.println("  0 1 2 3 4 5 6 7 8 9");
       for (int i = 0; i < 10; i++) {
-          System.out.print(i);
+          System.out.print(i+ " ");
           for (int j = 0; j<10;j++) {
-              //if (ships[i][j].toString() != "x" || ships[i][j].toString() != "S") {
+              if (shots[i][j]) {
                   
-                //System.out.print(". ");
-            //}
-            //else {
+                System.out.print(ships[i][j] + " " );
+            }
+            else {
                 
-                System.out.print(ships[i][j]+" ");
-            //}
+                System.out.print(". ");
+            }
         }
         System.out.println();
     }
-      /**
-    String[][] ocean = new String[11][11];
-    ocean[0][0] = " ";
-    for (int i= 0;i < 10;i++){
-      ocean[0][i + 1] = Integer.toString(i);
-      ocean[i + 1][0] = Integer.toString(i);
-    }
-    for (int i = 1; i < 11; i++){
-      for (int j = 1; j < 11; j++){
-      if (shootAt(i, j) == true  && isOccupied(i, j) == true) ocean[i][j]="S";
-      if (shootAt(i, j)==true  && isOccupied(i, j) ==false) ocean[i][j]="-";
-      if (ships[i-1][j-1].isSunk()==true) ocean[i][j]="x";
-      if (ships[i-1][j-1].isSunk()==false) ocean[i][j]=".";
+  }
+
+  public boolean isGameOver() {
+    for (int i = 0; i< 10; i++ ) {
+      for(int j = 0; j < 10; j++ ) {
+        if ((!(ships[i][j].isSunk())) && this.isOccupied(i,j)) {
+          return false;
+        } 
       }
     }
-    for (int i = 0; i < 11; i++){
-      for (int j = 0; j < 11; j++){
-          System.out.print(ocean[i][j] + " ");
-      }
-      System.out.println();
-    }
-    **/
+    System.out.println("You have won. Final Score:" + shotsFired);
+    return true;
+  }
+  
+  public Ship getShip(int row, int col) {
+    return ships[row][col];
   }
 
 }

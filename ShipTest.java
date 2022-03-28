@@ -7,7 +7,9 @@ public class ShipTest{
     test.setBowRow(4);
     System.out.println(test.getBowRow());
     System.out.println(test.okToPlaceShipAt(0, 0, true, o));
+    o.print();
     test.placeShipAt(0, 0, true, o);
+    o.print();
     o.shootAt(0,0);
     o.print();
 
